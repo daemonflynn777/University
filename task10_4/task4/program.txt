@@ -1,0 +1,21 @@
+program
+
+var k,tmp,res,i : int;
+
+begin
+
+res := 0;
+tmp := 0;
+
+read(k);
+k := k + 1;
+
+for i := 1 to k do
+begin
+res := tmp + i;
+tmp := res;
+end;
+
+write(res);
+
+end

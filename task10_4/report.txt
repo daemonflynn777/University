@@ -1,0 +1,71 @@
+1) В данном проекте были описаны следующие классы:
+
+    - unknown_symbol, expected_error, semantic_error: сообщают о различных типах ошибок
+    - Executor: исполняет программу на модельном языке
+    - Id: работает с таблицей лексем
+    - Lexem: содержит типы лексем и их значения, а также методы для получения этих величин
+    - Parser: разбивает входную программу на лексемы, определяет их тип, значени и тд, содержит стек лексем и различные методы для работы с лексемами
+    - RPN: строит польскую инверсную запись для входной программы на модельном языке
+    - Table: составление таблицы лексем
+    - Tokenizer: лексический (этап) анализ входной программы
+
+2) Синтаксис:
+
+   START -> program VARIABLES; MAIN | MAIN
+   VARPART -> var DESCR {,DESCR}
+   DESCR -> I {,I} : [int|bool|real]
+   MAIN -> begin {OP;} end
+   OP -> I:=EXPR | if EXPR then OP |
+         | if EXPR then OP else OP |
+         | while FULLEXPR do CYCLE |
+         | for I := N to N do CYCLE | MAIN |
+         | read(I) | write(EXPR) | eps
+   CYCLE -> OP | OP [break;|continue] OP |
+      | OP continue; OP
+   FULLEXPR -> EXPR [=|<|<=|>|>=|!=] EXPR | EXPR
+   EXPR -> TERM{ [ +|-|or ] TERM}
+   TERM -> FACTOR{ [*|/|and] FACTOR}
+   FACTOR -> I | N | RN | BOOL |
+            | not FACTOR | (FULL EXPR)
+   BOOL -> true|false
+   I -> LETTER|ILETTER|IDIGIT
+   N -> DIGIT{DIGIT}
+   RN -> DIGIT{DIGIT}.DIGIT{DIGIT}
+   LETTER -> a|b|...|z|A|B|...|Z
+   DIGIT -> 0|1|2|...|9
+
+3) Что не было реализовано:
+   Одновременная работа с данными разных типов, операции div и mod
+
+4) Обоснование применимости метода РС:
+   - во всех правилах пересечение first(a) и first(b) дает пустое множество
+   - перевод в пустой символ есть только в правиле для OP, но first(OP) в пересечении с follow(OP) дает пустое множество, поэтому метод РС применим
+
+5) Тесты:
+
+   A-тест (вычисление числа Фиббоначи):
+   program
+   var f1,f2,k,tmp,i : int;
+   begin
+   f1 := 1;
+   f2 := 1;
+   read(k);
+   for i := 1 to k do
+   begin
+   tmp := f1 + f2;
+   f1 := f2;
+   f2 := tmp;
+   end;
+   write(f1);
+   end
+
+   В-тест (вычисление факториала):
+   program
+   var factorial,n,i : int;
+   begin
+   factorial := 1;
+   read(n);
+   for i:=2 to n do
+      factorial := factorial * i;
+   write(factorial*i);
+   end

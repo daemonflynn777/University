@@ -1,0 +1,22 @@
+START -> program VARIABLES; MAIN | MAIN //Start of program
+VARPART -> var DESCR {,DESCR}		//Var part
+DESCR -> I {,I} : [int|bool|real]	//Desciption of variables
+MAIN -> begin {OP;} end			//Body part of program
+OP -> I:=EXPR | if EXPR then OP |
+     | if EXPR then OP else OP |
+     | while FULLEXPR do CYCLE |
+     | for I := N to N do CYCLE | MAIN |
+     | read(I) | write(EXPR) | eps      //Operator
+CYCLE -> OP | OP [break;|continue] OP |
+     | OP continue; OP  		//Cycle
+FULLEXPR -> EXPR [=|<|<=|>|>=|!=] EXPR | EXPR  //Full expression
+EXPR -> TERM{ [ +|-|or ] TERM}		//Expression
+TERM -> FACTOR{ [*|/|and] FACTOR}	//Term			
+FACTOR -> I | N | RN | BOOL |
+          | not FACTOR | (FULL EXPR)	//Factor	
+BOOL -> true|false			// Boolean
+I -> LETTER|ILETTER|IDIGIT		// Variable
+N -> DIGIT{DIGIT}			// Number
+RN -> DIGIT{DIGIT}.DIGIT{DIGIT}		// Real numbrt
+LETTER -> a|b|...|z|A|B|...|Z		// Letters
+DIGIT -> 0|1|2|...|9			// Digits
