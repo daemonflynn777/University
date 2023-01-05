@@ -1,0 +1,18 @@
+tech:
+  data_dir: "/Users/nikita.denisov/Documents/Personal/ВМК/Курсовая/data"
+  base_dir: "/Users/nikita.denisov/Documents/Personal/ВМК/Курсовая/ism-model"
+
+data:
+  file: canada_dataset.xls
+  start_year: 1990
+  end_year: 2000
+
+model:
+  coeffs:
+    a: "0.001;0.999" # coeff from CES GDP function
+    b: "-1;10" # coeff from CES GDP function
+    alpha_k: "0.001;1" # coeff for K_0 = Y_0/alpha_k
+    mu: "0.001;0.999" # capital retirement rate
+  n_splits: 11
+  n_threads: 8
+  convex_alpha: 5.0
